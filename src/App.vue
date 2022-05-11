@@ -1,12 +1,39 @@
 <template>
   <div id="app">
-    <nav>
+    <!--로그인 안된 상태-->
+    
+    <nav v-if="!fnGetAuthStatus">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/register">회원가입</router-link>
     </nav>
+
+    <nav v-else>
+      <router-link to="/">Home</router-link> |
+      <a @click="LogOut">로그아웃</a> |
+      <a >회원탈퇴</a>
+    </nav>
+
+
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  computed : {
+    fnGetAuthStatus () {
+      return this.$store.getters.fnGetAuthStatus
+    }
+  },
+  methods : {
+    LogOut(){
+      this.$store.dispatch("LogOut");
+    }
+  },
+  
+}
+</script>
+
 
 <style>
 #app {
@@ -29,4 +56,6 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
+
 </style>
